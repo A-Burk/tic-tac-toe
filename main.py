@@ -16,7 +16,6 @@ def print_intro():
     print("\nLet's play tic-tac-toe! You're X's\n")
     print("The spots on the board are numbered like this:")
     print_layout()
-    # print("Use '?' at any time to see the spots by number again")
     print("Make moves by typing in the number of the spot you wish to mark\n")
 
 
@@ -29,19 +28,23 @@ def convert(index):
 
 
 def human_turn(board):
+    valid_move = False
     move = input("What's your move?\n")
 
-    if move == "?":
-        print_layout()
-    elif (int(move) < 0) or (int(move) > 8):
-        raise Exception("out of bounds")
-    
-    row, col = convert(move)
+    while valid_move == False:
+        try:
+            if (int(move) < 0) or (int(move) > 8):
+                move = input("Out of bounds, try again\n")
+            else:
+                row, col = convert(move)
 
-    if board[row][col] == ' ':
-        board[row][col] = 'X'
-    else:
-        raise Exception("wrong move, you lose!")
+                if board[row][col] == ' ':
+                    board[row][col] = 'X'
+                    valid_move = True
+                else:
+                    move = input("That spot's taken, try again\n")
+        except:
+            move = input("Invalid move, try again\n")
 
 
 def robot_turn(board):
